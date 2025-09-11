@@ -67,14 +67,14 @@ const Auth = () => {
   };
 
   return (
-    <div ref={authRef} className="min-h-screen pt-24 pb-12 px-4 flex items-center justify-center">
-      <div className="w-full max-w-md">
+    <div ref={authRef} className="min-h-screen pt-32 pb-16 px-6 flex items-center justify-center">
+      <div className="w-full max-w-lg">
         <div className="auth-form card">
-          <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold mb-2">
+          <div className="text-center mb-10">
+            <h1 className="text-4xl font-bold mb-4">
               {isLogin ? 'Welcome Back' : 'Create Account'}
             </h1>
-            <p className="text-gray-400">
+            <p className="text-gray-400 text-lg">
               {isLogin 
                 ? 'Sign in to enhance your images' 
                 : 'Join us to start enhancing your low light images'
@@ -82,20 +82,20 @@ const Auth = () => {
             </p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-8">
             {!isLogin && (
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
+                <label className="block text-lg font-medium text-gray-300 mb-3">
                   Full Name
                 </label>
                 <div className="relative">
-                  <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                  <User className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
                   <input
                     type="text"
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
-                    className="input pl-10"
+                    className="input pl-12"
                     placeholder="Enter your full name"
                     required={!isLogin}
                   />
@@ -104,17 +104,17 @@ const Auth = () => {
             )}
 
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
+              <label className="block text-lg font-medium text-gray-300 mb-3">
                 Email Address
               </label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
                 <input
                   type="email"
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className="input pl-10"
+                  className="input pl-12"
                   placeholder="Enter your email"
                   required
                 />
@@ -122,24 +122,24 @@ const Auth = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
+              <label className="block text-lg font-medium text-gray-300 mb-3">
                 Password
               </label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <Lock className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
                 <input
                   type={showPassword ? 'text' : 'password'}
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
-                  className="input pl-10 pr-10"
+                  className="input pl-12 pr-12"
                   placeholder="Enter your password"
                   required
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
+                  className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
                 >
                   {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                 </button>
@@ -149,7 +149,7 @@ const Auth = () => {
             <button
               type="submit"
               disabled={loading}
-              className="btn-primary w-full flex items-center justify-center space-x-2"
+              className="btn-primary w-full text-lg py-4"
             >
               {loading ? (
                 <Loader className="w-5 h-5 animate-spin" />
@@ -159,8 +159,8 @@ const Auth = () => {
             </button>
           </form>
 
-          <div className="mt-6 text-center">
-            <p className="text-gray-400">
+          <div className="mt-8 text-center">
+            <p className="text-gray-400 text-lg">
               {isLogin ? "Don't have an account?" : "Already have an account?"}
               <button
                 onClick={toggleMode}
@@ -171,8 +171,8 @@ const Auth = () => {
             </p>
           </div>
 
-          <div className="mt-6 pt-6 border-t border-gray-700">
-            <p className="text-xs text-gray-500 text-center">
+          <div className="mt-8 pt-8 border-t border-gray-700">
+            <p className="text-sm text-gray-500 text-center leading-relaxed">
               By continuing, you agree to our Terms of Service and Privacy Policy.
               Your images are automatically deleted after 24 hours.
             </p>
