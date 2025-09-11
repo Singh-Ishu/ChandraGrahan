@@ -29,22 +29,20 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="navbar fixed top-0 left-0 right-0 z-50 bg-black/30 backdrop-blur-xl border-b border-white/10">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="flex items-center justify-between h-20">
+    <nav className="navbar">
+      <div className="navbar-container">
+        <div className="navbar-content">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-3 text-white hover:text-indigo-400 transition-colors">
-            <Moon className="w-8 h-8" />
-            <span className="text-2xl font-bold">ChandraGrahan</span>
+          <Link to="/" className="navbar-logo">
+            <Moon className="navbar-logo-icon" />
+            <span className="navbar-logo-text">ChandraGrahan</span>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-10">
+          <div className="navbar-desktop">
             <Link 
               to="/" 
-              className={`text-lg font-medium transition-colors ${
-                location.pathname === '/' ? 'text-indigo-400' : 'text-white hover:text-indigo-400'
-              }`}
+              className={`navbar-link ${location.pathname === '/' ? 'navbar-link-active' : ''}`}
             >
               Home
             </Link>
@@ -53,19 +51,17 @@ const Navbar = () => {
               <>
                 <Link 
                   to="/profile" 
-                  className={`text-lg font-medium transition-colors ${
-                    location.pathname === '/profile' ? 'text-indigo-400' : 'text-white hover:text-indigo-400'
-                  }`}
+                  className={`navbar-link ${location.pathname === '/profile' ? 'navbar-link-active' : ''}`}
                 >
                   Profile
                 </Link>
-                <div className="flex items-center space-x-6">
-                  <span className="text-lg text-gray-300">Welcome, {user.name}</span>
+                <div className="navbar-user-section">
+                  <span className="navbar-welcome">Welcome, {user.name}</span>
                   <button
                     onClick={handleLogout}
-                    className="flex items-center space-x-2 text-lg text-white hover:text-red-400 transition-colors"
+                    className="navbar-logout"
                   >
-                    <LogOut className="w-5 h-5" />
+                    <LogOut className="navbar-logout-icon" />
                     <span>Logout</span>
                   </button>
                 </div>
@@ -75,33 +71,31 @@ const Navbar = () => {
                 to="/auth" 
                 className="btn-primary"
               >
-                <User className="w-5 h-5" />
+                <User className="btn-icon" />
                 <span>Sign In</span>
               </Link>
             )}
           </div>
 
           {/* Mobile menu button */}
-          <div className="md:hidden">
+          <div className="navbar-mobile-toggle">
             <button
               onClick={toggleMenu}
-              className="text-white hover:text-indigo-400 transition-colors p-2"
+              className="navbar-mobile-button"
             >
-              {isMenuOpen ? <X className="w-7 h-7" /> : <Menu className="w-7 h-7" />}
+              {isMenuOpen ? <X className="navbar-mobile-icon" /> : <Menu className="navbar-mobile-icon" />}
             </button>
           </div>
         </div>
 
         {/* Mobile Navigation */}
         {isMenuOpen && (
-          <div className="md:hidden">
-            <div className="px-4 pt-4 pb-6 space-y-4 bg-black/50 backdrop-blur-xl rounded-2xl mt-4 border border-white/10">
+          <div className="navbar-mobile">
+            <div className="navbar-mobile-menu">
               <Link 
                 to="/" 
                 onClick={() => setIsMenuOpen(false)}
-                className={`block px-4 py-3 text-lg font-medium transition-colors rounded-lg ${
-                  location.pathname === '/' ? 'text-indigo-400 bg-indigo-400/10' : 'text-white hover:text-indigo-400 hover:bg-white/5'
-                }`}
+                className={`navbar-mobile-link ${location.pathname === '/' ? 'navbar-mobile-link-active' : ''}`}
               >
                 Home
               </Link>
@@ -111,18 +105,16 @@ const Navbar = () => {
                   <Link 
                     to="/profile" 
                     onClick={() => setIsMenuOpen(false)}
-                    className={`block px-4 py-3 text-lg font-medium transition-colors rounded-lg ${
-                      location.pathname === '/profile' ? 'text-indigo-400 bg-indigo-400/10' : 'text-white hover:text-indigo-400 hover:bg-white/5'
-                    }`}
+                    className={`navbar-mobile-link ${location.pathname === '/profile' ? 'navbar-mobile-link-active' : ''}`}
                   >
                     Profile
                   </Link>
-                  <div className="px-4 py-3">
-                    <span className="text-lg text-gray-300">Welcome, {user.name}</span>
+                  <div className="navbar-mobile-user">
+                    <span className="navbar-mobile-welcome">Welcome, {user.name}</span>
                   </div>
                   <button
                     onClick={handleLogout}
-                    className="block w-full text-left px-4 py-3 text-lg text-white hover:text-red-400 transition-colors rounded-lg hover:bg-white/5"
+                    className="navbar-mobile-logout"
                   >
                     Logout
                   </button>
@@ -131,7 +123,7 @@ const Navbar = () => {
                 <Link 
                   to="/auth" 
                   onClick={() => setIsMenuOpen(false)}
-                  className="block px-4 py-3 text-lg font-medium text-white hover:text-indigo-400 transition-colors rounded-lg hover:bg-white/5"
+                  className="navbar-mobile-link"
                 >
                   Sign In
                 </Link>

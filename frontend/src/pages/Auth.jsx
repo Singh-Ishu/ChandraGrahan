@@ -67,14 +67,14 @@ const Auth = () => {
   };
 
   return (
-    <div ref={authRef} className="min-h-screen pt-32 pb-16 px-6 flex items-center justify-center">
-      <div className="w-full max-w-lg">
+    <div ref={authRef} className="auth-page">
+      <div className="auth-container">
         <div className="auth-form card">
-          <div className="text-center mb-10">
-            <h1 className="text-4xl font-bold mb-4">
+          <div className="auth-header">
+            <h1 className="auth-title">
               {isLogin ? 'Welcome Back' : 'Create Account'}
             </h1>
-            <p className="text-gray-400 text-lg">
+            <p className="auth-subtitle">
               {isLogin 
                 ? 'Sign in to enhance your images' 
                 : 'Join us to start enhancing your low light images'
@@ -82,20 +82,20 @@ const Auth = () => {
             </p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-8">
+          <form onSubmit={handleSubmit} className="auth-form-content">
             {!isLogin && (
-              <div>
-                <label className="block text-lg font-medium text-gray-300 mb-3">
+              <div className="auth-field">
+                <label className="auth-label">
                   Full Name
                 </label>
-                <div className="relative">
-                  <User className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <div className="auth-input-container">
+                  <User className="auth-input-icon" />
                   <input
                     type="text"
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
-                    className="input pl-12"
+                    className="input auth-input"
                     placeholder="Enter your full name"
                     required={!isLogin}
                   />
@@ -103,45 +103,45 @@ const Auth = () => {
               </div>
             )}
 
-            <div>
-              <label className="block text-lg font-medium text-gray-300 mb-3">
+            <div className="auth-field">
+              <label className="auth-label">
                 Email Address
               </label>
-              <div className="relative">
-                <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <div className="auth-input-container">
+                <Mail className="auth-input-icon" />
                 <input
                   type="email"
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className="input pl-12"
+                  className="input auth-input"
                   placeholder="Enter your email"
                   required
                 />
               </div>
             </div>
 
-            <div>
-              <label className="block text-lg font-medium text-gray-300 mb-3">
+            <div className="auth-field">
+              <label className="auth-label">
                 Password
               </label>
-              <div className="relative">
-                <Lock className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <div className="auth-input-container">
+                <Lock className="auth-input-icon" />
                 <input
                   type={showPassword ? 'text' : 'password'}
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
-                  className="input pl-12 pr-12"
+                  className="input auth-input auth-input-password"
                   placeholder="Enter your password"
                   required
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
+                  className="auth-password-toggle"
                 >
-                  {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                  {showPassword ? <EyeOff className="auth-password-icon" /> : <Eye className="auth-password-icon" />}
                 </button>
               </div>
             </div>
@@ -149,30 +149,30 @@ const Auth = () => {
             <button
               type="submit"
               disabled={loading}
-              className="btn-primary w-full text-lg py-4"
+              className="btn-primary auth-submit"
             >
               {loading ? (
-                <Loader className="w-5 h-5 animate-spin" />
+                <Loader className="auth-loading-icon" />
               ) : (
                 <span>{isLogin ? 'Sign In' : 'Create Account'}</span>
               )}
             </button>
           </form>
 
-          <div className="mt-8 text-center">
-            <p className="text-gray-400 text-lg">
+          <div className="auth-switch">
+            <p className="auth-switch-text">
               {isLogin ? "Don't have an account?" : "Already have an account?"}
               <button
                 onClick={toggleMode}
-                className="ml-2 text-indigo-400 hover:text-indigo-300 font-medium transition-colors"
+                className="auth-switch-button"
               >
                 {isLogin ? 'Sign Up' : 'Sign In'}
               </button>
             </p>
           </div>
 
-          <div className="mt-8 pt-8 border-t border-gray-700">
-            <p className="text-sm text-gray-500 text-center leading-relaxed">
+          <div className="auth-footer">
+            <p className="auth-footer-text">
               By continuing, you agree to our Terms of Service and Privacy Policy.
               Your images are automatically deleted after 24 hours.
             </p>

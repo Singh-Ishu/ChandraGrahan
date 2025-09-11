@@ -81,7 +81,7 @@ const FloatingParticles = () => {
 
 const ThreeBackground = () => {
   return (
-    <div className="fixed inset-0 -z-10">
+    <div className="three-background">
       <Canvas
         camera={{ position: [0, 0, 5], fov: 75 }}
         style={{ background: 'transparent' }}

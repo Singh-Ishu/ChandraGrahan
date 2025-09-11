@@ -73,23 +73,23 @@ const Home = () => {
   ];
 
   return (
-    <div className="min-h-screen">
+    <div className="home-page">
       <ThreeBackground />
       
       {/* Hero Section */}
-      <section ref={heroRef} className="relative pt-32 pb-20 px-6">
-        <div className="max-w-6xl mx-auto text-center">
-          <h1 className="hero-title text-5xl md:text-7xl font-bold mb-8 bg-gradient-to-r from-white via-indigo-200 to-purple-200 bg-clip-text text-transparent leading-tight">
+      <section ref={heroRef} className="hero-section">
+        <div className="hero-container">
+          <h1 className="hero-title">
             ChandraGrahan
           </h1>
-          <p className="hero-subtitle text-xl md:text-2xl text-gray-300 mb-12 max-w-4xl mx-auto leading-relaxed">
+          <p className="hero-subtitle">
             Transform your low light images with AI-powered enhancement. 
             Bring out hidden details and create stunning visuals from dark photos.
           </p>
           
           <div className="hero-cta">
             {!user && (
-              <Link to="/auth" className="btn-primary text-lg px-10 py-5">
+              <Link to="/auth" className="btn-primary hero-button">
                 Get Started Free
               </Link>
             )}
@@ -98,13 +98,13 @@ const Home = () => {
       </section>
 
       {/* Upload Section */}
-      <section className="py-20 px-6">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">
+      <section className="upload-section">
+        <div className="upload-container">
+          <div className="upload-header">
+            <h2 className="upload-title">
               Enhance Your Images
             </h2>
-            <p className="text-gray-400 text-xl max-w-3xl mx-auto leading-relaxed">
+            <p className="upload-description">
               Upload your low light images and watch our AI transform them into bright, detailed masterpieces.
             </p>
           </div>
@@ -114,25 +114,25 @@ const Home = () => {
       </section>
 
       {/* Features Section */}
-      <section ref={featuresRef} className="py-20 px-6 bg-black/20">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-20">
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">
+      <section ref={featuresRef} className="features-section">
+        <div className="features-container">
+          <div className="features-header">
+            <h2 className="features-title">
               Why Choose ChandraGrahan?
             </h2>
-            <p className="text-gray-400 text-xl max-w-3xl mx-auto leading-relaxed">
+            <p className="features-description">
               Experience the power of advanced AI technology combined with user-friendly design.
             </p>
           </div>
           
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="features-grid">
             {features.map((feature, index) => (
-              <div key={index} className="feature-card card text-center">
-                <div className="mx-auto w-20 h-20 bg-indigo-500/20 rounded-full flex items-center justify-center mb-6 text-indigo-400">
+              <div key={index} className="feature-card card">
+                <div className="feature-icon-container">
                   {feature.icon}
                 </div>
-                <h3 className="text-xl font-semibold mb-4">{feature.title}</h3>
-                <p className="text-gray-400 leading-relaxed">{feature.description}</p>
+                <h3 className="feature-title">{feature.title}</h3>
+                <p className="feature-description">{feature.description}</p>
               </div>
             ))}
           </div>
@@ -140,22 +140,22 @@ const Home = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 px-6">
-        <div className="max-w-4xl mx-auto text-center">
-          <div className="card">
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">
+      <section className="cta-section">
+        <div className="cta-container">
+          <div className="card cta-card">
+            <h2 className="cta-title">
               Ready to Transform Your Images?
             </h2>
-            <p className="text-gray-400 text-xl mb-10 leading-relaxed">
+            <p className="cta-description">
               Join thousands of users who trust ChandraGrahan for their low light image enhancement needs.
             </p>
             
             {!user ? (
-              <Link to="/auth" className="btn-primary text-lg px-10 py-5">
+              <Link to="/auth" className="btn-primary cta-button">
                 Start Enhancing Now
               </Link>
             ) : (
-              <p className="text-indigo-400 font-semibold text-lg">
+              <p className="cta-welcome">
                 Welcome back! Start uploading your images above.
               </p>
             )}

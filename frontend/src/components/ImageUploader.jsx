@@ -93,14 +93,10 @@ const ImageUploader = () => {
   };
 
   return (
-    <div ref={uploaderRef} className="w-full max-w-5xl mx-auto">
+    <div ref={uploaderRef} className="image-uploader">
       {!selectedFile && !result && (
         <div
-          className={`relative border-2 border-dashed rounded-3xl p-16 text-center transition-all duration-300 ${
-            dragActive 
-              ? 'border-indigo-400 bg-indigo-400/10' 
-              : 'border-gray-600 hover:border-gray-500'
-          }`}
+          className={`upload-dropzone ${dragActive ? 'upload-dropzone-active' : ''}`}
           onDragEnter={handleDrag}
           onDragLeave={handleDrag}
           onDragOver={handleDrag}
@@ -111,27 +107,27 @@ const ImageUploader = () => {
             type="file"
             accept="image/*"
             onChange={handleChange}
-            className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+            className="upload-input"
           />
           
-          <div className="space-y-6">
-            <div className="mx-auto w-24 h-24 bg-indigo-500/20 rounded-full flex items-center justify-center">
-              <Upload className="w-12 h-12 text-indigo-400" />
+          <div className="upload-content">
+            <div className="upload-icon-container">
+              <Upload className="upload-icon" />
             </div>
             
-            <div>
-              <h3 className="text-2xl font-semibold text-white mb-4">
+            <div className="upload-text">
+              <h3 className="upload-title">
                 Upload Your Low Light Image
               </h3>
-              <p className="text-gray-400 text-lg mb-2">
+              <p className="upload-description">
                 Drag and drop your image here, or click to browse
               </p>
-              <p className="text-gray-500">
+              <p className="upload-formats">
                 Supports JPG, PNG, WebP up to 10MB
               </p>
             </div>
             
-            <button className="btn-primary text-lg">
+            <button className="btn-primary upload-button">
               Choose File
             </button>
           </div>
@@ -140,35 +136,35 @@ const ImageUploader = () => {
 
       {selectedFile && !processing && !result && (
         <div className="card">
-          <div className="flex items-center justify-between mb-8">
-            <h3 className="text-2xl font-semibold">Selected Image</h3>
+          <div className="selected-image-header">
+            <h3 className="selected-image-title">Selected Image</h3>
             <button
               onClick={resetUploader}
-              className="text-gray-400 hover:text-white transition-colors p-2"
+              className="selected-image-close"
             >
-              <X className="w-6 h-6" />
+              <X className="selected-image-close-icon" />
             </button>
           </div>
           
-          <div className="grid md:grid-cols-2 gap-8">
-            <div>
+          <div className="selected-image-grid">
+            <div className="selected-image-preview">
               <img
                 src={URL.createObjectURL(selectedFile)}
                 alt="Selected"
-                className="w-full h-80 object-cover rounded-2xl"
+                className="selected-image-img"
               />
-              <p className="text-gray-400 mt-4 text-center">Original Image</p>
+              <p className="selected-image-label">Original Image</p>
             </div>
             
-            <div className="flex flex-col justify-center space-y-6">
-              <div className="text-center">
-                <ImageIcon className="w-20 h-20 text-gray-600 mx-auto mb-6" />
-                <p className="text-gray-400 text-lg">Enhanced image will appear here</p>
+            <div className="selected-image-actions">
+              <div className="selected-image-placeholder">
+                <ImageIcon className="selected-image-placeholder-icon" />
+                <p className="selected-image-placeholder-text">Enhanced image will appear here</p>
               </div>
               
               <button
                 onClick={handleUpload}
-                className="btn-primary w-full text-lg"
+                className="btn-primary selected-image-enhance"
                 disabled={!user}
               >
                 {!user ? 'Login Required' : 'Enhance Image'}
@@ -179,17 +175,17 @@ const ImageUploader = () => {
       )}
 
       {processing && (
-        <div className="card text-center">
-          <div className="space-y-6">
-            <div className="mx-auto w-24 h-24 bg-indigo-500/20 rounded-full flex items-center justify-center">
-              <Loader className="w-12 h-12 text-indigo-400 animate-spin" />
+        <div className="card processing-card">
+          <div className="processing-content">
+            <div className="processing-icon-container">
+              <Loader className="processing-icon" />
             </div>
-            <h3 className="text-2xl font-semibold">Enhancing Your Image</h3>
-            <p className="text-gray-400 text-lg">
+            <h3 className="processing-title">Enhancing Your Image</h3>
+            <p className="processing-description">
               Our AI is working to brighten and enhance your low light image...
             </p>
-            <div className="w-full bg-gray-700 rounded-full h-3">
-              <div className="bg-indigo-500 h-3 rounded-full animate-pulse" style={{ width: '60%' }}></div>
+            <div className="processing-progress">
+              <div className="processing-progress-bar" style={{ width: '60%' }}></div>
             </div>
           </div>
         </div>
@@ -197,42 +193,42 @@ const ImageUploader = () => {
 
       {result && (
         <div className="card">
-          <div className="flex items-center justify-between mb-8">
-            <h3 className="text-2xl font-semibold">Enhancement Complete!</h3>
+          <div className="result-header">
+            <h3 className="result-title">Enhancement Complete!</h3>
             <button
               onClick={resetUploader}
-              className="text-gray-400 hover:text-white transition-colors p-2"
+              className="result-close"
             >
-              <X className="w-6 h-6" />
+              <X className="result-close-icon" />
             </button>
           </div>
           
-          <div className="grid md:grid-cols-2 gap-8">
-            <div>
+          <div className="result-grid">
+            <div className="result-image-container">
               <img
                 src={result.originalUrl}
                 alt="Original"
-                className="w-full h-80 object-cover rounded-2xl"
+                className="result-image"
               />
-              <p className="text-gray-400 mt-4 text-center">Original Image</p>
+              <p className="result-image-label">Original Image</p>
             </div>
             
-            <div>
+            <div className="result-image-container">
               <img
                 src={result.enhancedUrl}
                 alt="Enhanced"
-                className="w-full h-80 object-cover rounded-2xl"
+                className="result-image"
               />
-              <p className="text-gray-400 mt-4 text-center">Enhanced Image</p>
+              <p className="result-image-label">Enhanced Image</p>
             </div>
           </div>
           
-          <div className="flex justify-center mt-8">
+          <div className="result-download">
             <button
               onClick={() => downloadImage(result.enhancedUrl, result.originalName)}
-              className="btn-primary text-lg"
+              className="btn-primary result-download-button"
             >
-              <Download className="w-5 h-5" />
+              <Download className="btn-icon" />
               <span>Download Enhanced Image</span>
             </button>
           </div>
