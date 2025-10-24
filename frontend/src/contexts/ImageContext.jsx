@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import { useAuth } from './AuthContext';
+import apiService from '../services/api';
 
 const ImageContext = createContext();
 
@@ -66,60 +67,33 @@ export const ImageProvider = ({ children }) => {
     setProcessing(true);
     
     try {
-      // Simulate AI processing
-      await new Promise(resolve => setTimeout(resolve, 3000));
+      // Call backend API for image enhancement
+      const result = await apiService.enhanceImage(file);
       
-      const originalUrl = URL.createObjectURL(file);
-      
-      // Create a canvas to simulate enhanced image
-      const canvas = document.createElement('canvas');
-      const ctx = canvas.getContext('2d');
-      const img = new Image();
-      
-      return new Promise((resolve) => {
-        img.onload = () => {
-          canvas.width = img.width;
-          canvas.height = img.height;
-          
-          // Draw original image
-          ctx.drawImage(img, 0, 0);
-          
-          // Apply brightness enhancement simulation
-          const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-          const data = imageData.data;
-          
-          for (let i = 0; i < data.length; i += 4) {
-            data[i] = Math.min(255, data[i] * 1.3);     // Red
-            data[i + 1] = Math.min(255, data[i + 1] * 1.3); // Green
-            data[i + 2] = Math.min(255, data[i + 2] * 1.3); // Blue
-          }
-          
-          ctx.putImageData(imageData, 0, 0);
-          
-          canvas.toBlob((blob) => {
-            const enhancedUrl = URL.createObjectURL(blob);
-            
-            const newImage = {
-              id: Date.now(),
-              originalName: file.name,
-              originalUrl,
-              enhancedUrl,
-              uploadedAt: new Date().toISOString(),
-              size: file.size,
-              type: file.type
-            };
-            
-            const updatedImages = [...images, newImage];
-            setImages(updatedImages);
-            localStorage.setItem('userImages', JSON.stringify(updatedImages));
-            
-            setProcessing(false);
-            resolve({ success: true, image: newImage });
-          });
+      if (result.success) {
+        const originalUrl = URL.createObjectURL(file);
+        
+        const newImage = {
+          id: result.fileId,
+          originalName: result.originalFilename,
+          originalUrl,
+          enhancedUrl: result.downloadUrl,
+          uploadedAt: new Date().toISOString(),
+          size: file.size,
+          type: file.type,
+          modelUsed: "lol_real"
         };
         
-        img.src = originalUrl;
-      });
+        const updatedImages = [...images, newImage];
+        setImages(updatedImages);
+        localStorage.setItem('userImages', JSON.stringify(updatedImages));
+        
+        setProcessing(false);
+        return { success: true, image: newImage };
+      } else {
+        setProcessing(false);
+        return { success: false, error: result.error };
+      }
       
     } catch (error) {
       setProcessing(false);

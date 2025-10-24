@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react';
+import apiService from '../services/api';
 
 const AuthContext = createContext();
 
@@ -16,28 +17,52 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     // Check for existing user session
-    const savedUser = localStorage.getItem('user');
-    if (savedUser) {
-      setUser(JSON.parse(savedUser));
-    }
-    setLoading(false);
+    const initializeAuth = async () => {
+      try {
+        // First check if we have a token
+        const token = localStorage.getItem('authToken');
+        if (token) {
+          apiService.setToken(token);
+          const result = await apiService.getCurrentUser();
+          if (result.success) {
+            setUser(result.user);
+          } else {
+            // Clear any invalid tokens
+            apiService.setToken(null);
+            localStorage.removeItem('user');
+            localStorage.removeItem('authToken');
+          }
+        } else {
+          // No token, check for legacy user data
+          const savedUser = localStorage.getItem('user');
+          if (savedUser) {
+            setUser(JSON.parse(savedUser));
+          }
+        }
+      } catch (error) {
+        console.error('Auth initialization error:', error);
+        apiService.setToken(null);
+        localStorage.removeItem('user');
+        localStorage.removeItem('authToken');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    initializeAuth();
   }, []);
 
   const login = async (email, password) => {
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      const result = await apiService.login(email, password);
       
-      const userData = {
-        id: Date.now(),
-        email,
-        name: email.split('@')[0],
-        createdAt: new Date().toISOString()
-      };
-      
-      setUser(userData);
-      localStorage.setItem('user', JSON.stringify(userData));
-      return { success: true };
+      if (result.success) {
+        setUser(result.user);
+        localStorage.setItem('user', JSON.stringify(result.user));
+        return { success: true };
+      } else {
+        return { success: false, error: result.error };
+      }
     } catch (error) {
       return { success: false, error: error.message };
     }
@@ -45,28 +70,31 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (email, password, name) => {
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      const result = await apiService.register(email, password, name);
       
-      const userData = {
-        id: Date.now(),
-        email,
-        name,
-        createdAt: new Date().toISOString()
-      };
-      
-      setUser(userData);
-      localStorage.setItem('user', JSON.stringify(userData));
-      return { success: true };
+      if (result.success) {
+        setUser(result.user);
+        localStorage.setItem('user', JSON.stringify(result.user));
+        return { success: true };
+      } else {
+        return { success: false, error: result.error };
+      }
     } catch (error) {
       return { success: false, error: error.message };
     }
   };
 
-  const logout = () => {
-    setUser(null);
-    localStorage.removeItem('user');
-    localStorage.removeItem('userImages');
+  const logout = async () => {
+    try {
+      await apiService.logout();
+    } catch (error) {
+      console.error('Logout error:', error);
+    } finally {
+      setUser(null);
+      localStorage.removeItem('user');
+      localStorage.removeItem('authToken');
+      localStorage.removeItem('userImages');
+    }
   };
 
   const value = {
